@@ -1,5 +1,7 @@
 import { NextPage } from 'next'
 import Layout from '../../components/layout'
+import Date from '../../components/date'
+import Head from 'next/head'
 import { getAllPostIds, getPostData } from '../../lib/posts'
 
 type PostProps = {
@@ -14,11 +16,15 @@ type PostProps = {
 const Post: NextPage<PostProps> = ({ postData }) => {
     return (
         <Layout>
+            <Head>
+                <title>{postData.title}</title>
+            </Head>
+
             {postData.title}
             <br />
             {postData.id}
             <br />
-            {postData.date}
+            <Date dateString={postData.date} />
             <br />
             <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
         </Layout>
