@@ -1,13 +1,9 @@
 import { NextPage } from 'next'
 import Layout from '../../components/layout'
-import { getAllPostIds, getPostData } from '../../lib/posts'
+import { PostData, getAllPostIds, getPostData } from '../../lib/posts'
 
 type PostProps = {
-    postData: {
-        title: string
-        date: string
-        id: string
-    }
+    postData: PostData
 }
 
 const Post: NextPage<PostProps> = ({ postData }) => {

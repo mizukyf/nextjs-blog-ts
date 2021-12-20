@@ -2,14 +2,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
+import { PostData, getSortedPostsData } from '../lib/posts'
 
 type HomeProps = {
-  allPostsData: {
-    date: string
-    title: string
-    id: string
-  }[]
+  allPostsData: PostData[]
 }
 
 const Home: NextPage<HomeProps> = ({ allPostsData }) => {

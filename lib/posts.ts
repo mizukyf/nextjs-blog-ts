@@ -2,9 +2,15 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
+type PostData = {
+  date: string
+  title: string
+  id: string
+}
+
 const postsDirectory = path.join(process.cwd(), 'posts')
 
-const getSortedPostsData = () => {
+const getSortedPostsData = () : PostData[] => {
   // /postディレクトリ配下のファイルの名前を取得
   const fileNames = fs.readdirSync(postsDirectory)
 
@@ -64,7 +70,7 @@ const getAllPostIds = () => {
   })
 }
 
-const getPostData = (id: string) => {
+const getPostData = (id: string) : PostData => {
   const fullPath = path.join(postsDirectory, `${id}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
 
@@ -78,4 +84,5 @@ const getPostData = (id: string) => {
   }
 }
 
+export type { PostData }
 export { getSortedPostsData, getAllPostIds, getPostData }
