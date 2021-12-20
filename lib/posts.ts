@@ -64,4 +64,18 @@ const getAllPostIds = () => {
   })
 }
 
-export { getSortedPostsData, getAllPostIds }
+const getPostData = (id: string) => {
+  const fullPath = path.join(postsDirectory, `${id}.md`)
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+
+  // gray-matterを使い投稿のメタデータを読み取る
+  const matterResult = matter(fileContents)
+
+  // メタデータとIDを1つにまとめる
+  return {
+    id,
+    ...(matterResult.data as { date: string; title: string })
+  }
+}
+
+export { getSortedPostsData, getAllPostIds, getPostData }
