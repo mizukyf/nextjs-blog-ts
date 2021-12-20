@@ -1,6 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import { remark } from 'remark'
+import html from 'remark-html'
 
 const postsDirectory = path.join(process.cwd(), 'posts')
 
@@ -64,16 +66,23 @@ const getAllPostIds = () => {
   })
 }
 
-const getPostData = (id: string) => {
+const getPostData = async (id: string) => {
   const fullPath = path.join(postsDirectory, `${id}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
 
   // gray-matterを使い投稿のメタデータを読み取る
   const matterResult = matter(fileContents)
 
-  // メタデータとIDを1つにまとめる
+  // remarkを使いマークダウンをHTMLに変換する
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content)
+  const contentHtml = processedContent.toString()
+
+  // メタデータとIDと本文HTMLを1つにまとめる
   return {
     id,
+    contentHtml,
     ...(matterResult.data as { date: string; title: string })
   }
 }
