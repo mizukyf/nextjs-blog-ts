@@ -39,4 +39,29 @@ const getSortedPostsData = () => {
   })
 }
 
-export { getSortedPostsData }
+const getAllPostIds = () => {
+  const fileNames = fs.readdirSync(postsDirectory)
+
+  // 次のような配列が返される：
+  // [
+  //   {
+  //     params: {
+  //       id: 'ssg-ssr'
+  //     }
+  //   },
+  //   {
+  //     params: {
+  //       id: 'pre-rendering'
+  //     }
+  //   }
+  // ]
+  return fileNames.map(fileName => {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, '')
+      }
+    }
+  })
+}
+
+export { getSortedPostsData, getAllPostIds }
