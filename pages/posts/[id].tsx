@@ -7,6 +7,7 @@ type PostProps = {
         title: string
         date: string
         id: string
+        contentHtml: string
     }
 }
 
@@ -18,6 +19,8 @@ const Post: NextPage<PostProps> = ({ postData }) => {
             {postData.id}
             <br />
             {postData.date}
+            <br />
+            <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
         </Layout>
     )
 }
@@ -30,12 +33,12 @@ const getStaticPaths = async () => {
     }
 }
 
-const getStaticProps = ({
+const getStaticProps = async ({
     params
 }: {
     params: { id: string }
 }) => {
-    const postData = getPostData(params.id)
+    const postData = await getPostData(params.id)
     return {
         props: {
             postData
