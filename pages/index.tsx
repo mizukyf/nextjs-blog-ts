@@ -2,8 +2,17 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
+import { getSortedPostsData } from '../lib/posts'
 
-const Home: NextPage = () => {
+type HomeProps = {
+  allPostsData: {
+    date: string
+    title: string
+    id: string
+  }[]
+}
+
+const Home: NextPage<HomeProps> = ({ allPostsData }) => {
   return (
     <Layout home>
       <Head>
@@ -20,8 +29,32 @@ const Home: NextPage = () => {
           <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
         </p>
       </section>
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={utilStyles.headingLg}>Blog</h2>
+        <ul className={utilStyles.list}>
+          {allPostsData.map(({ id, date, title }) => (
+            <li className={utilStyles.listItem} key={id}>
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul>
+      </section>      
     </Layout>
   )
 }
 
+const getStaticProps = async () => {
+  const allPostsData = getSortedPostsData()
+  return {
+    props: {
+      allPostsData
+    }
+  }
+}
+
 export default Home
+export { getStaticProps }
